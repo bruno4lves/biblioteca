@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		.alert {
+		    padding: .10rem 1rem !important;
+	 	    top: 70px;
+		    left: 0;
+		    right: 0;
+		    z-index: 10;
+	 	    position: absolute;
+	 	    width: 90%;
+    		left: 18px;
+	    }
+	    
+	    .titulo {
+	     	margin-bottom: 50px; 
+	    }
+	    
+	    .fixaDiv {
+	   	    position: relative;
+	    }
+	    
+	    @media screen and (min-width: 952px) and (max-width: 952px) and (min-height: 957px) and (max-height: 957px) {
+		    .alert {
+		        padding: .10rem 1rem !important;
+		 	    top: 70px;
+			    left: 0;
+			    right: 0;
+			    z-index: 10;
+		 	    position: absolute;
+		 	    width: 90%;
+	    		left: 18px;
+	    		width: 85%;
+			    left: 18px;
+			    text-align: center;
+		    }
+		}
+	    
+	</style>
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary h-100">
+	<div class="container">
+	    <div class="row justify-content-center">
+
+	        <div class="col-md-4"> <!--Controla a largura do formulário-->
+				<div class="form-floating mb-4">
+					<div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
+	        		<div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+				</div>
+
+				<div class="mt-3 text-center fixaDiv">
+					<h1 class="titulo">Login </h1>
+				</div>
+
+				<form th:action="@{/login}" method="post">
+
+	                <div class="form-floating mb-4">
+	                    <input type="text" name="username" class="form-control" id="username" required>
+	                    <label for="username">Login</label>
+	                </div>
+	                <div class="form-floating mb-4">
+	                    <input type="password" name="password" class="form-control" id="password" required>
+	                    <label for="password">Password</label>
+	                </div>
+	                <button class="btn btn-primary w-100 py-2">Sign in</button>
+	            </form>
+
+	            <div class="mt-3">
+				    Don't have an account? <a class="signUp" th:href="@{/usuario/cadastro}">Sign Up</a>
+				</div>
+	        </div>
+	    </div>
+	</div>
+</body>
+</html>
