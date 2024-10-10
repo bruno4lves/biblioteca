@@ -23,8 +23,9 @@ public class AcessoController {
 		
 		String role = usuario.getRole().getRole();
 		switch (role) {
-		case "ADMIN" -> {return "private/user/servicos-admin";}
 		case "USER" -> {return "private/user/servicos";}
+		case "ADMIN" -> {return "private/user/servicos-admin";}
+		case "BIBLIO" -> {return "private/user/servicos-biblio";}
 		}
 		return "private/user/servicos";
 	}

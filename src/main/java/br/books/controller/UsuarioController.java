@@ -69,9 +69,9 @@ public class UsuarioController {
 
 		if(isAdmin(usuarioAntigo)) {
 			return "private/user/usuario-edita-perfil-admin";
-		} else if (usuario.getRole().getRole().equals("BIBLIO" )) {
-			return "private/biblio/usuario-edita-perfil";
-		} else if (usuario.getRole().getRole().equals("USER" )) {
+		} else if (usuarioAntigo.getRole().getRole().equals("BIBLIO" )) {
+			return "private/user/usuario-edita-perfil-biblio";
+		} else if (usuarioAntigo.getRole().getRole().equals("USER" )) {
 			return "private/user/usuario-edita-perfil-user";
 		}
 		return "acesso-negado";
@@ -124,9 +124,9 @@ public class UsuarioController {
     	
     	if(isAdmin(usuarioLogado)) {
 			return "private/user/usuario-edita-senha-admin";
-		} else if (usuario.getRole().getRole().equals("BIBLIO" )) {
-			return "private/biblio/uusuario-edita-senha-biblio";
-		} else if (usuario.getRole().getRole().equals("USER")) {
+		} else if (usuarioLogado.getRole().getRole().equals("BIBLIO")) {
+			return "private/user/usuario-edita-senha-biblio";
+		} else if (usuarioLogado.getRole().getRole().equals("USER")) {
 			return "private/user/usuario-edita-senha-user";
 		}
 		return "acesso-negado";

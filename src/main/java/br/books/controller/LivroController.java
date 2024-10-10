@@ -40,9 +40,21 @@ public class LivroController {
 	@GetMapping("/cadastro")
 	public String cadastraLivro(Model model) {
 		model.addAttribute("livro", new Livro());
-		return "private/biblio/cadastro-livro";
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String login = authentication.getName();
+
+		Usuario usuario = usuarioRepository.findByLogin(login);
+
+	    if(isAdmin(usuario)) {
+	    	return "private/biblio/cadastro-livro-admin";
+		} else if (usuario.getRole().getRole().equals("BIBLIO" )) {
+			return "private/biblio/cadastro-livro-biblio";
+		}
+
+		return "acesso-negado";
 	}
-	
+
 	@PostMapping("/cadastro")
 	public String cadastraLivroPost(@Valid Livro livro, @RequestParam("imagemCapaBase64") String imagemCapaBase64,
 	                                 BindingResult result,
@@ -74,6 +86,7 @@ public class LivroController {
 	            attributes.addFlashAttribute("errorMessage", "Falha ao enviar a imagem: " + e.getMessage());
 	        }
 	    }
+
 	    return "redirect:/livro/cadastro";
 	}
 	
@@ -92,7 +105,6 @@ public class LivroController {
 		case "BIBLIO" -> {return "private/biblio/lista-de-livros";}
 		}
 		return "private/biblio/lista-de-livros";
-		
 	}
 	
 	@GetMapping("/edita/{id}")
@@ -111,8 +123,6 @@ public class LivroController {
 		if (isAdmin(usuario)) {
 			return "private/biblio/edita-livros-admin";
 		} else if (usuario.getRole().getRole().equals("BIBLIO")) {
-			return "private/biblio/edita-livros";
-		} else if (usuario.getRole().getRole().equals("USER")) {
 			return "private/biblio/edita-livros";
 		}
 		return "acesso-negado";
