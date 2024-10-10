@@ -43,9 +43,7 @@ Você está usando o MySQL 8.0.33 como banco de dados, integrado via o mysql-con
 ---- ---- ---- ----
 ---- Iniciar projeto
 
-Aqui está como você pode iniciar seu projeto Spring Boot em três IDEs populares: Eclipse.
-
-1. Eclipse:
+Aqui está como você pode iniciar seu projeto Spring Boot com Eclipse:
 Importe o projeto:
 
 Vá em File > Import.
