@@ -67,8 +67,14 @@ public class UsuarioController {
 		usuario.setLogin(usuarioAntigo.getLogin());
 		model.addAttribute("usuario", usuario);
 
-		System.out.println(usuarioAntigo.getRole());
-		return "private/user/usuario-edita-perfil";
+		if(isAdmin(usuarioAntigo)) {
+			return "private/user/usuario-edita-perfil-admin";
+		} else if (usuario.getRole().getRole().equals("BIBLIO" )) {
+			return "private/biblio/usuario-edita-perfil";
+		} else if (usuario.getRole().getRole().equals("USER" )) {
+			return "private/user/usuario-edita-perfil-user";
+		}
+		return "acesso-negado";
 	}
 
 	@PostMapping("/edita/perfil")
@@ -103,6 +109,7 @@ public class UsuarioController {
 	    model.addAttribute("usuario", usuarioLogado);
 
 	    attributes.addFlashAttribute("mensagem", "Alteração salva com sucesso!");
+
 	    return "redirect:/usuario/edita/perfil";
 	}
 	
@@ -114,7 +121,15 @@ public class UsuarioController {
     	Usuario usuarioLogado = usuarioRepository.findByLogin(username);
 
     	model.addAttribute("usuario", usuarioLogado);
-		return "private/user/usuario-edita-senha";
+    	
+    	if(isAdmin(usuarioLogado)) {
+			return "private/user/usuario-edita-senha-admin";
+		} else if (usuario.getRole().getRole().equals("BIBLIO" )) {
+			return "private/biblio/uusuario-edita-senha-biblio";
+		} else if (usuario.getRole().getRole().equals("USER")) {
+			return "private/user/usuario-edita-senha-user";
+		}
+		return "acesso-negado";
 	}
 	
 	@PostMapping("/altera/senha")
@@ -135,5 +150,9 @@ public class UsuarioController {
 			attributes.addFlashAttribute("mensagem", "Alteração feita.");
 		}
 		return "redirect:/usuario/altera/senha";
+	}
+	
+	public boolean isAdmin(Usuario usuario) {
+	    return usuario.getRole().getRole().equals("ADMIN");
 	}
 }

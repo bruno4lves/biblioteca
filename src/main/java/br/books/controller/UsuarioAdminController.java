@@ -74,7 +74,7 @@ public class UsuarioAdminController {
 	}
 
 	@GetMapping("/edita/{id}")
-	// @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//	 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public String editarUsuario(@PathVariable("id") long id, Model model) {
 
 		Optional<Usuario> usuarioLogado = usuarioRepository.findById(id);

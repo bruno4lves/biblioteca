@@ -1,62 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layout-admin :: page_head}">
-<meta charset="UTF-8">
-<title>Home</title>
+<head th:replace="~{layout :: page_head}">
+	<meta charset="UTF-8">
+	<title>Home</title>
 
-</head>
-<body>
-	<nav th:replace="~{layout-admin :: page_navbar}"></nav>
+	</head>
+	<body>
 
+	<nav th:replace="~{layout :: page_navbar}"></nav>
+	
 	<div class="container">
 	    <div class="row justify-content-center">
 	        <div class="col-md-6 mt-4">
 	            <h2 class="text-center">Editar perfil</h2>
-
+	            
 	            <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
 				<div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
-
-	            <form action="#" th:action="@{/admin/edita/{id}(id=${usuario.id})}" th:object="${usuario}" method="post">
-					<!--Campos do formulário -->
+	            
+	            <form action="#" th:action="@{/usuario/edita/perfil}" th:object="${usuario}" method="post">
+	                <!-- Campos do formulário -->
 	                <div class="mb-3">
 	                    <label class="form-label">Nome:</label>
 	                    <input class="form-control custom-input" type="text" th:field="*{nome}" >
 	                </div>
+	
 	                <div class="mb-3">
 	                    <label class="form-label">Login:</label>
 	                    <input class="form-control custom-input" type="text" th:field="*{login}" >
-	                </div>
-
-	                <div class="mb-3">
-					    <label class="col-sm-1 col-form-label">Ativado?:</label>
-					    <div class="col-sm-2">
-					        <div class="form-check form-check-inline">
-					            <input class="form-check-input" type="radio" value="true" th:field="*{ativo}">
-					            <label class="form-check-label">Ativo</label>
-					        </div>
-					        <div class="form-check form-check-inline">
-					            <input class="form-check-input" type="radio" value="false" th:field="*{ativo}">
-					            <label class="form-check-label">Inativo</label>
-					        </div>
-					    </div>
-					</div>
-	                <div class="mb-3">
-	                    <label class="form-label" for="role">Permissão:</label>
-	                    <select class="form-control" id="role" th:field="*{role}" required>
-	                        <option value="">Selecione</option>
-	                        <option value="ADMIN" th:selected="${usuario.role == 'ADMIN'}">ADMIN</option>
-	                        <option value="USER" th:selected="${usuario.role == 'USER'}">USER</option>
-	                        <option value="BIBLIO" th:selected="${usuario.role == 'BIBLIO'}">BIBLIOTECARIO</option>
-	                    </select>
-	                </div>
-
+	                </div>	
 	                <!-- Div para alinhar os botões -->
 	                <div class="d-flex justify-content-center gap-2 mt-3">
 	                    <!-- Botão de submit -->
 	                    <input type="submit" value="Alterar" class="btn btn-primary" style="width: 150px;" />
+	                    
 	                    <!-- Botão de voltar -->
-	                    <a href="/admin/usuarios/listar" class="btn btn-secondary" style="width: 150px;">Voltar</a>
-	                    <!-- <a href="/home" class="btn btn-secondary" style="width: 150px;">Voltar</a>-->
+	                    <a href="/home" class="btn btn-secondary" style="width: 150px;">Voltar</a>
 	                </div>
 	            </form>
 	        </div>

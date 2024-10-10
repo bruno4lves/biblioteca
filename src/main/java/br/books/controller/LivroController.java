@@ -7,6 +7,9 @@ import java.util.Base64;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.books.entity.Livro;
+import br.books.entity.Usuario;
 import br.books.repository.LivroRepository;
+import br.books.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -27,7 +32,11 @@ public class LivroController {
 	
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/cadastro")
 	public String cadastraLivro(Model model) {
 		model.addAttribute("livro", new Livro());
@@ -69,20 +78,44 @@ public class LivroController {
 	}
 	
 	@GetMapping("/listar")
-	public String listaDeLivros(Livro livro, Model model) {
+	public String listaDeLivros(Usuario usuario, Livro livro, Model model) {
 		model.addAttribute("livros", livroRepository.findAll());
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String login = authentication.getName();
+		
+		usuario = usuarioRepository.findByLogin(login);
+		
+		String role = usuario.getRole().getRole();
+		switch (role) {
+		case "ADMIN" -> {return "private/biblio/lista-de-livros-admin";}
+		case "BIBLIO" -> {return "private/biblio/lista-de-livros";}
+		}
 		return "private/biblio/lista-de-livros";
+		
 	}
 	
 	@GetMapping("/edita/{id}")
 	public String editaLivro(@PathVariable("id") long id, Model model, RedirectAttributes attributes) {
-		//model.addAttribute("livro", new Livro());
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String login = authentication.getName();
 		
 		Optional<Livro> livroAntigo = livroRepository.findById(id);
 
 		Livro livro = livroAntigo.get();
 		model.addAttribute("livro", livro);
-		return "private/biblio/edita-livros";
+		
+		Usuario usuario = usuarioRepository.findByLogin(login);
+
+		if (isAdmin(usuario)) {
+			return "private/biblio/edita-livros-admin";
+		} else if (usuario.getRole().getRole().equals("BIBLIO")) {
+			return "private/biblio/edita-livros";
+		} else if (usuario.getRole().getRole().equals("USER")) {
+			return "private/biblio/edita-livros";
+		}
+		return "acesso-negado";
 	}
 	
 	@PostMapping("/edita/{id}")
@@ -108,5 +141,9 @@ public class LivroController {
 		livroRepository.deleteById(id);
 		attributes.addFlashAttribute("mensagem", "Usuário removido");
 		return "redirect:/livro/listar";
+	}
+	
+	public boolean isAdmin(Usuario usuario) {
+	    return usuario.getRole().getRole().equals("ADMIN");
 	}
 }

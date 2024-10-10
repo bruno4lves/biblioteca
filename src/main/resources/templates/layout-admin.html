@@ -17,16 +17,31 @@
 	  <div class="container-fluid">
 	    <!--<a class="navbar-brand" href="/">Usuário</a> -->
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
+	      <span class="navbar-toggler-icon">admin</span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
 	          <a class="nav-link active" aria-current="page" href="/home">Home</a>
 	        </li>
+	        <li class="nav-item dropdown">
+	            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Livros</a>
+	            <div class="dropdown-menu">
+					<a href="/livro/cadastro" class="dropdown-item">Cadastrar livro</a>
+	                <a href="/livro/listar" class="dropdown-item">Lista de livros</a>
+	            </div>
+             </li>
 	        <li class="nav-item">
 	          <a class="nav-link text-dark"  href="/acesso/servicos">Serviços</a>
 	        </li>
+	        <li class="nav-item dropdown">
+	            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Gerenciamento</a>
+	            <div class="dropdown-menu">
+					<a href="/admin/usuarios/listar" class="dropdown-item">Lista de usuários</a>
+					<a href="/admin/usuario/cadastra" class="dropdown-item">Cadastrar usuário</a>
+	                <a href="/livro/listar" class="dropdown-item">Lista de livros</a>
+	            </div>
+             </li>
              </ul>
              <ul class="nav navbar-nav ms-auto">
 			    <li class="nav-item dropdown">

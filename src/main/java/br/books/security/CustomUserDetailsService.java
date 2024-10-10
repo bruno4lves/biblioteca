@@ -10,6 +10,7 @@ import br.books.entity.Usuario;
 import br.books.repository.UsuarioRepository;
 
 @Service // Essa anotação registra a classe como um bean no Spring
+//@Transactional
 public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
@@ -28,4 +29,22 @@ public class CustomUserDetailsService implements UserDetailsService{
 	            .roles(usuario.getRole().getRole()) // Adiciona os papéis do usuário
 	            .build();
 	}
+	
+//	@Override
+//	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+//	    Usuario usuario = usuarioService.findByLogin(login);
+//	    if (usuario == null) {
+//	        throw new UsernameNotFoundException("Usuário não encontrado");
+//	    }
+//
+//	    return org.springframework.security.core.userdetails.User
+//	            .withUsername(usuario.getLogin())
+//	            .password(usuario.getPassword())
+//	            .roles(usuario.getRole().getRole())
+//	            .accountExpired(false)
+//	            .accountLocked(false)
+//	            .credentialsExpired(false)
+//	            .disabled(!usuario.isAtivo())
+//	            .build();
+//	}
 }

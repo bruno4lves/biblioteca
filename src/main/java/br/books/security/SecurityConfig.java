@@ -14,6 +14,9 @@ public class SecurityConfig {
 	
 	@Autowired
     private CustomUserDetailsService userDetailsService;
+	
+	@Autowired
+    private LoginSucesso loginSucesso;
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
@@ -30,13 +33,26 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/login", "/usuario/cadastro").permitAll()
+                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/biblio/**").hasAuthority("ROLE_BIBLIO")
+                .requestMatchers("/biblio/**").hasAuthority("ROLE_BIBLIO")
                 .anyRequest().authenticated()
+                
+    		    //hasAnyAuthority
+    			//hasAuthority
+    			//hasRole
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/home", true)
                 .permitAll()
-            )
+
+//              .formLogin(form -> 
+//				 form.successHandler(loginSucesso)
+//				.loginPage("/login").permitAll()
+//              .loginPage("/home").permitAll()
+        		)
+
             .logout(logout -> logout.permitAll());
 
         return http.build();

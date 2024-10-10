@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout :: page_head}">
-<meta charset="UTF-8">
-<title>Home</title>
+	<meta charset="UTF-8">
+	<title>Home</title>
+ <!-- Verifica se o usuário tem a role 'ADMIN' -->
+    <sec:authorize access="hasRole('ADMIN')">
+        <head th:replace="~{layout-admin :: page_head}"></head>
+    </sec:authorize>
 
+    <!-- Verifica se o usuário tem a role 'BIBLIOTECARIO' -->
+<!--    <sec:authorize access="hasRole('BIBLIOTECARIO')">-->
+<!--        <head th:replace="~{layout-biblio :: page_head}"></head>-->
+<!--    </sec:authorize>-->
 </head>
-<body>
 
-	<nav th:replace="~{layout :: page_navbar}"></nav>
+<body>
+    <!-- Navbar para ADMIN -->
+    <sec:authorize access="hasRole('ADMIN')">
+        <nav th:replace="~{layout-admin :: page_navbar}"></nav>
+    </sec:authorize>
+    <!-- Navbar para BIBLIOTECARIO -->
+<!--    <sec:authorize access="hasRole('BIBLIOTECARIO')">-->
+<!--        <nav th:replace="~{layout-biblio :: page_navbar}"></nav>-->
+<!--    </sec:authorize>-->
+<!--	<nav th:replace="~{layout :: page_navbar}"></nav>-->
+<!--	<nav th:replace="~{layout :: page_navbar}"></nav>-->
 	<div class="container">
 	    <div class="row justify-content-center">
 	        <div class="col-md-6 mt-4">
